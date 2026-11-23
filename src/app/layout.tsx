@@ -3,9 +3,14 @@ import "./globals.css";
 import { SavedCartProvider } from "@/context/SavedCartContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 
+const APP_URL = "https://bumper-deals-app.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(APP_URL),
   title: "DropVault | Real-Time Deal Intelligence & 90-Day Price Tracker",
   description: "Live Amazon India verified lightning drops, genuine 90-day lowest prices, and 80%+ discount price glitches.",
+  applicationName: "DropVault",
+  keywords: ["Amazon Deals", "Price Drop", "Loot Deals", "Discounts", "Amazon India", "DropVault", "Price Tracker", "Lightning Deals"],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -13,8 +18,37 @@ export const metadata: Metadata = {
     title: "DropVault",
   },
   icons: {
-    icon: "/icon.svg",
-    apple: "/icon.svg",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: APP_URL,
+    siteName: "DropVault",
+    title: "DropVault | Real-Time Deal Intelligence & 90-Day Price Tracker",
+    description: "Live Amazon India verified lightning drops, genuine 90-day lowest prices, and 80%+ discount price glitches.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "DropVault — Real-Time Deal Intelligence Platform",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DropVault | Real-Time Deal Intelligence & 90-Day Price Tracker",
+    description: "Live Amazon India verified lightning drops, genuine 90-day lowest prices, and 80%+ discount price glitches.",
+    images: ["/og-image.png"],
   },
 };
 

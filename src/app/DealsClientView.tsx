@@ -192,19 +192,45 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
     }
   };
 
-  // Copy app link
-  const handleCopyAppUrl = () => {
+  // Share / Copy app link
+  const handleCopyAppUrl = async () => {
     if (typeof window !== 'undefined') {
+      const shareData = {
+        title: 'DropVault | Real-Time Deal Intelligence',
+        text: '🔥 Check out live Amazon India price drops, 80%+ glitch deals, and 90-day price tracker on DropVault:',
+        url: window.location.origin,
+      };
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+          return;
+        } catch {
+          // Fallback if dismissed or cancelled
+        }
+      }
       navigator.clipboard.writeText(window.location.origin);
       setCopiedAppUrl(true);
       setTimeout(() => setCopiedAppUrl(false), 2000);
     }
   };
 
-  // Copy deal link (with affiliate tag)
-  const handleCopyDealUrl = (deal: DealItem, e?: React.MouseEvent) => {
+  // Share / Copy deal link (with affiliate tag)
+  const handleCopyDealUrl = async (deal: DealItem, e?: React.MouseEvent) => {
     e?.stopPropagation();
-    navigator.clipboard.writeText(injectAffiliateTag(deal.url));
+    const dealUrl = injectAffiliateTag(deal.url);
+    if (typeof window !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({
+          title: `${deal.title} (${deal.discountPercentage}% OFF)`,
+          text: `🔥 Deal Alert: ${deal.title}\n💰 ₹${deal.currentPrice.toLocaleString('en-IN')} (${deal.discountPercentage}% OFF, Save ₹${deal.savings.toLocaleString('en-IN')})\n👉 Grab deal:`,
+          url: dealUrl,
+        });
+        return;
+      } catch {
+        // Fallback
+      }
+    }
+    navigator.clipboard.writeText(dealUrl);
     setCopiedDealId(deal.id);
     setTimeout(() => setCopiedDealId(null), 2000);
   };
