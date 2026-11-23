@@ -59,7 +59,16 @@ export function validateDealQuality(
 
   const savings = Math.max(0, originalPrice - currentPrice);
 
-  // 2. Reject obvious scam/inflated fake MRPs
+  // 2. Reject obvious scam/inflated fake MRPs or seller typo glitches (e.g. 99% off laptop/appliances)
+  if (originalPrice > 100000 && discountPercentage >= 95) {
+    return { isValid: false, isVerifiedBrand: false, isBrandPriceDrop: false };
+  }
+  if (currentPrice > 1000 && discountPercentage >= 96) {
+    return { isValid: false, isVerifiedBrand: false, isBrandPriceDrop: false };
+  }
+  if (originalPrice > currentPrice * 15 && currentPrice > 500) {
+    return { isValid: false, isVerifiedBrand: false, isBrandPriceDrop: false };
+  }
   if (currentPrice < 500 && originalPrice > 5000) {
     return { isValid: false, isVerifiedBrand: false, isBrandPriceDrop: false };
   }
@@ -71,7 +80,7 @@ export function validateDealQuality(
   }
 
   // 3. Mathematical impossibility checks
-  if (discountPercentage >= 98 && currentPrice < 1000 && !matchedBrand) {
+  if (discountPercentage >= 95 && !matchedBrand) {
     return { isValid: false, isVerifiedBrand: false, isBrandPriceDrop: false };
   }
 

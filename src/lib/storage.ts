@@ -11,6 +11,9 @@ function ensureDataDir() {
   }
 }
 
+const MAX_DEALS_STORED = 2000;
+const MAX_DEAL_AGE_HOURS = 48; // Expire deals not seen or refreshed within 48 hours
+
 export async function getStoredDeals(): Promise<DealItem[]> {
   try {
     ensureDataDir();
@@ -31,23 +34,31 @@ export async function saveDeals(newDeals: DealItem[]): Promise<DealItem[]> {
     ensureDataDir();
     const existingDeals = await getStoredDeals();
     const dealMap = new Map<string, DealItem>();
+    const now = Date.now();
+    const maxAgeMs = MAX_DEAL_AGE_HOURS * 60 * 60 * 1000;
 
-    // Existing deals
+    // Retain existing deals only if they haven't expired (< 48 hours old)
     for (const deal of existingDeals) {
-      dealMap.set(deal.id, deal);
+      const lastCheckedTime = new Date(deal.lastCheckedAt || deal.discoveredAt || 0).getTime();
+      if (now - lastCheckedTime < maxAgeMs) {
+        dealMap.set(deal.id, deal);
+      }
     }
 
-    // Upsert new deals
+    // Upsert new fresh deals
     for (const deal of newDeals) {
-      dealMap.set(deal.id, deal);
+      dealMap.set(deal.id, {
+        ...deal,
+        lastCheckedAt: new Date().toISOString(),
+      });
     }
 
     const merged = Array.from(dealMap.values()).sort(
       (a, b) => b.discountPercentage - a.discountPercentage
     );
 
-    // Keep top 600 deals
-    const pruned = merged.slice(0, 600);
+    // Keep up to MAX_DEALS_STORED deals (expanded from 600 to 2,000)
+    const pruned = merged.slice(0, MAX_DEALS_STORED);
 
     fs.writeFileSync(DEALS_FILE, JSON.stringify(pruned, null, 2), 'utf-8');
     return pruned;
