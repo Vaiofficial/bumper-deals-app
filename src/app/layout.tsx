@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SavedCartProvider } from "@/context/SavedCartContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { Analytics } from "@vercel/analytics/next";
 
 const APP_URL = "https://bumper-deals-app.vercel.app";
 
@@ -206,6 +207,7 @@ export default function RootLayout({
             {children}
           </SavedCartProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
