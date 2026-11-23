@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "scrape:deals": "tsx scripts/update-deals.ts"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.5",

@@ -1,0 +1,48 @@
+name: Update Deals
+
+on:
+  schedule:
+    # Runs every 4 hours (at 00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC)
+    - cron: '0 */4 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions UI
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-and-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Scrape Amazon Deals
+        run: npm run scrape:deals
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/deals.json
+          
+          # Only commit and push if data/deals.json has changes
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: auto-update deals [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+            git push
+            echo "Deals updated and pushed to repository. Vercel will trigger a new deployment."
+          else
+            echo "No new deals or changes found. Skipping commit."
+          fi
