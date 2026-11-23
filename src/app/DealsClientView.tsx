@@ -675,7 +675,7 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
         {heroDeal && (
           <section aria-label="Featured Hourly Flash Drop" className="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-10">
             {/* Primary Flash Hero Tile (8 cols) */}
-            <div className="lg:col-span-8 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 p-6 sm:p-8 shadow-vault relative overflow-hidden flex flex-col justify-between">
+            <div className="lg:col-span-8 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 p-6 sm:p-8 shadow-vault hover:shadow-vault-hover hover:border-orange-500/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
               {/* Subtle top accent bar */}
               <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 text-xs font-bold">
@@ -1029,19 +1029,19 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
                   return (
                     <article
                       key={deal.id}
-                      className="group rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 shadow-vault hover:shadow-vault-hover hover:border-stone-300 dark:hover:border-stone-700 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+                      className="group rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 shadow-vault hover:shadow-vault-hover hover:-translate-y-2 hover:border-orange-500/40 dark:hover:border-orange-500/40 transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden will-change-transform"
                     >
                       {/* Top Visual Container + Body */}
                       <div className="flex flex-col flex-1">
                         {/* Top Visual Area (Click opens 90d Price History Modal) */}
                         <div
                           onClick={() => setSelectedDealForHistory(deal)}
-                          className="cursor-pointer relative h-52 bg-gradient-to-br from-stone-50 via-stone-100/60 to-orange-50/30 dark:from-stone-900 dark:via-stone-800/50 dark:to-stone-900 p-6 flex items-center justify-center border-b border-stone-200/70 dark:border-stone-800 overflow-hidden"
+                          className="cursor-pointer relative h-52 bg-gradient-to-br from-stone-50 via-stone-100/60 to-orange-50/30 dark:from-stone-900 dark:via-stone-800/50 dark:to-stone-900 group-hover:from-stone-100/80 group-hover:to-orange-100/30 dark:group-hover:from-stone-800/70 dark:group-hover:to-stone-900 p-6 flex items-center justify-center border-b border-stone-200/70 dark:border-stone-800 overflow-hidden transition-colors duration-300"
                         >
                           {/* Top-Left Discount & Brand Badge */}
                           <div className="absolute top-3.5 left-3.5 flex flex-wrap items-center gap-1.5 z-10 max-w-[70%]">
                             <span
-                              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold shadow-xs ${
+                              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold shadow-xs transition-transform duration-200 group-hover:scale-105 ${
                                 isGlitch
                                   ? 'bg-red-600 text-white animate-pulse'
                                   : 'bg-emerald-600 text-white'
@@ -1051,7 +1051,7 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
                             </span>
 
                             {deal.brandName && (
-                              <span className="px-2 py-0.5 rounded-md bg-stone-950/80 dark:bg-white/90 text-white dark:text-stone-950 text-[10px] font-mono font-bold uppercase tracking-wider backdrop-blur-xs truncate max-w-[120px]">
+                              <span className="px-2 py-0.5 rounded-md bg-stone-950/80 dark:bg-white/90 text-white dark:text-stone-950 text-[10px] font-mono font-bold uppercase tracking-wider backdrop-blur-xs truncate max-w-[120px] transition-transform duration-200 group-hover:scale-105">
                                 {deal.brandName}
                               </span>
                             )}
@@ -1070,7 +1070,7 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
                           </div>
 
                           {/* Product Image Stage */}
-                          <div className="transform group-hover:scale-105 transition-transform duration-300 w-full h-full flex items-center justify-center">
+                          <div className="transform group-hover:scale-108 group-hover:-translate-y-1 transition-transform duration-500 ease-out w-full h-full flex items-center justify-center">
                             {deal.imageUrl ? (
                               <img
                                 src={getProxiedImageUrl(deal.imageUrl)}
@@ -1084,7 +1084,7 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
                                     target.src = deal.imageUrl;
                                   }
                                 }}
-                                className="max-h-40 max-w-full object-contain drop-shadow-sm"
+                                className="max-h-40 max-w-full object-contain drop-shadow-sm transition-all duration-300"
                               />
                             ) : (
                               <div className="text-xs font-mono text-stone-400">No Image</div>
@@ -1097,7 +1097,7 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
                               <TrendingDown className="w-3.5 h-3.5" />
                               Lowest in 90d
                             </span>
-                            <span className="px-2.5 py-1 rounded-lg bg-stone-950/90 dark:bg-white/90 text-[10px] font-mono font-bold text-white dark:text-stone-950 opacity-0 group-hover:opacity-100 transition-opacity shadow-xs">
+                            <span className="px-2.5 py-1 rounded-lg bg-stone-950/90 dark:bg-white/90 text-[10px] font-mono font-bold text-white dark:text-stone-950 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-200 ease-out shadow-xs">
                               Inspect Graph →
                             </span>
                           </div>
@@ -1226,7 +1226,7 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
                           href={injectAffiliateTag(deal.url)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-stone-950 hover:bg-orange-600 dark:bg-white dark:hover:bg-orange-500 text-white dark:text-stone-950 dark:hover:text-white text-xs font-bold shadow-xs transition-all active:scale-[0.98]"
+                          className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-stone-950 hover:bg-orange-600 dark:bg-white dark:hover:bg-orange-500 text-white dark:text-stone-950 dark:hover:text-white text-xs font-bold shadow-xs hover:shadow-md hover:shadow-orange-600/20 hover:scale-[1.01] transition-all duration-200 active:scale-[0.98]"
                         >
                           <span>Grab Deal</span>
                           <ExternalLink className="w-3.5 h-3.5" />
