@@ -1,16 +1,40 @@
 {
-  "name": "BumperDeals.in",
-  "short_name": "BumperDeals",
-  "description": "Amazon India Bumper Deals and Price Glitches Tracker",
+  "name": "DropVault — Real-Time Deal Intelligence",
+  "short_name": "DropVault",
+  "description": "Live Amazon India verified price drops, lightning deals, and 80%+ price glitches tracker.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#020617",
-  "theme_color": "#f59e0b",
+  "orientation": "portrait",
+  "background_color": "#0B0F19",
+  "theme_color": "#F97316",
+  "categories": ["shopping", "lifestyle", "productivity"],
   "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
     {
       "src": "/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Price Glitches (80%+)",
+      "short_name": "Glitches",
+      "description": "View active 80%+ discount price glitches",
+      "url": "/?intent=loot",
+      "icons": [{ "src": "/icon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Lightning Drops",
+      "short_name": "Lightning",
+      "description": "View lightning drops and flash deals",
+      "url": "/?intent=lightning",
+      "icons": [{ "src": "/icon.svg", "sizes": "192x192" }]
     }
   ]
 }

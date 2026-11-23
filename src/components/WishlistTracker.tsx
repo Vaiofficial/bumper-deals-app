@@ -68,16 +68,16 @@ export function WishlistTracker() {
   };
 
   return (
-    <div className="mb-10 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-200 dark:border-slate-800">
+    <div className="mb-10 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 p-4 sm:p-6 shadow-vault">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-stone-200/80 dark:border-stone-800">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 dark:text-amber-400">
+          <div className="w-9 h-9 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-600 dark:text-orange-400">
             <Bookmark className="w-4 h-4" />
           </div>
           <div>
-            <h2 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+            <h2 className="font-extrabold text-base text-stone-950 dark:text-white flex items-center gap-2">
               Custom Price Drop Wishlist
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300">
                 {items.length} Tracked
               </span>
             </h2>
@@ -93,19 +93,19 @@ export function WishlistTracker() {
           placeholder="Amazon URL or ASIN (e.g. B08N5WRWNW or https://amazon.in/dp/...)"
           value={urlOrAsin}
           onChange={(e) => setUrlOrAsin(e.target.value)}
-          className="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-amber-500"
+          className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
         />
         <input
           type="number"
           placeholder="Target Price (₹)"
           value={targetPrice}
           onChange={(e) => setTargetPrice(e.target.value)}
-          className="w-full sm:w-36 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-amber-500"
+          className="w-full sm:w-36 px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 font-mono"
         />
         <button
           type="submit"
           disabled={submitting}
-          className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md shadow-amber-400/10 disabled:opacity-50"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50"
         >
           {submitting ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
           <span>{submitting ? 'Tracking...' : 'Track Item'}</span>
