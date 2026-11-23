@@ -541,6 +541,9 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
 
       {/* MAIN CONTAINER */}
       <main id="top" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20">
+        <h1 className="sr-only">
+          DropVault: Live Amazon India Deals, Discount Offers, Coupons & 90-Day Price Tracker
+        </h1>
         
         {/* Wishlist Price Tracker (when opened) */}
         {showWishlistSection && (
@@ -1348,6 +1351,106 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
               </div>
             </>
           )}
+        </section>
+
+        {/* 6.5 DEAL INTELLIGENCE & SHOPPING GUIDE (SEO RICH CONTENT & FAQ) */}
+        <section aria-labelledby="deals-guide-heading" className="mt-20 pt-12 border-t border-stone-200/80 dark:border-stone-800">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-10">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 text-xs font-mono font-bold mb-3 border border-orange-500/20">
+                <Sparkles className="w-3.5 h-3.5" />
+                SHOPPING INTELLIGENCE & SAVINGS GUIDE
+              </span>
+              <h2 id="deals-guide-heading" className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-950 dark:text-white">
+                How DropVault Finds Real Amazon Deals & Verified Discounts
+              </h2>
+              <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+                Guarding smart online shoppers against artificial price inflation, expired coupons, and fake clearance sales.
+              </p>
+            </div>
+
+            {/* 3 Pillars of Deal Verification */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+              <div className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 shadow-vault">
+                <div className="w-9 h-9 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-3">
+                  <TrendingDown className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-bold text-stone-950 dark:text-white mb-1.5">
+                  90-Day Price Audit
+                </h3>
+                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                  We track the full 90-day price curve of over 2,000 Amazon India products. You can inspect true all-time lows and verify that the discount is 100% genuine.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 shadow-vault">
+                <div className="w-9 h-9 rounded-xl bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center mb-3">
+                  <Zap className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-bold text-stone-950 dark:text-white mb-1.5">
+                  80%+ Glitch Detector
+                </h3>
+                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                  Deep clearance drops and flash seller price errors are detected within seconds by our automated scrapers and published instantly before stock runs out.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 shadow-vault">
+                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3">
+                  <Ticket className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-bold text-stone-950 dark:text-white mb-1.5">
+                  Stackable Coupons & Cards
+                </h3>
+                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                  Our system automatically checks for Amazon check-box promo coupons and bank card discounts (HDFC, ICICI, SBI) to reveal your real net checkout savings.
+                </p>
+              </div>
+            </div>
+
+            {/* Structured FAQ Grid */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-stone-950 dark:text-white mb-4">
+                Frequently Asked Questions About Amazon Deals & Offers
+              </h3>
+
+              <div className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800">
+                <h4 className="text-sm font-bold text-stone-950 dark:text-white mb-1.5">
+                  Where can I find the best Amazon India deals, coupons, and discount offers?
+                </h4>
+                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                  DropVault scans over 2,000 top Amazon India product categories every hour, spotlighting verified price drops, active coupon codes, lightning doorbusters, and bank offers in real time.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800">
+                <h4 className="text-sm font-bold text-stone-950 dark:text-white mb-1.5">
+                  How does DropVault detect Amazon price glitches and 80%+ discount drops?
+                </h4>
+                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                  Our deal intelligence engine compares current live prices against historical MSRP and previous 90-day pricing records. When real seller pricing errors or clearance cuts occur, they are highlighted under the 80%+ Glitches filter.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800">
+                <h4 className="text-sm font-bold text-stone-950 dark:text-white mb-1.5">
+                  How does the 90-day price history tracker verify genuine discounts?
+                </h4>
+                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                  Every product card includes an interactive 90-day price chart. You can inspect the lowest, highest, and median prices over the last 30, 60, and 90 days to confirm the item is truly at its verified lowest price.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800">
+                <h4 className="text-sm font-bold text-stone-950 dark:text-white mb-1.5">
+                  Can I combine bank discounts, exchange offers, and coupons on Amazon?
+                </h4>
+                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                  Yes! DropVault tracks instant bank card discounts (HDFC, ICICI, SBI, Axis), Amazon check-box coupons, and exchange offers to calculate your effective lowest final checkout price.
+                </p>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
 
