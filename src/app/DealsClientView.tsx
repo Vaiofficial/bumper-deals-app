@@ -100,7 +100,7 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
   const [selectedDealType, setSelectedDealType] = useState<string>('ALL');
   const [minRating, setMinRating] = useState<number>(0);
   const [onlyBankOffers, setOnlyBankOffers] = useState<boolean>(false);
-  const [sortBy, setSortBy] = useState<'discount' | 'price-asc' | 'price-desc' | 'savings'>('discount');
+  const [sortBy, setSortBy] = useState<'discount' | 'latest' | 'savings' | 'price-asc' | 'price-desc'>('discount');
   const [selectedDealForHistory, setSelectedDealForHistory] = useState<DealItem | null>(null);
   const [showWishlistSection, setShowWishlistSection] = useState(false);
   const [showCartDrawer, setShowCartDrawer] = useState(false);
@@ -286,9 +286,58 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
     }
   };
 
+  // Interleave deals to prevent repetitive similar products or duplicate brands side-by-side
+  const interleaveDealsForDiversity = (items: DealItem[]) => {
+    if (items.length <= 6) return items;
+    const result: DealItem[] = [];
+    const pool = [...items];
+
+    while (pool.length > 0) {
+      let pickedIndex = -1;
+      const last1 = result[result.length - 1];
+      const last2 = result[result.length - 2];
+      const lookaheadLimit = Math.min(pool.length, 12);
+
+      // 1. First choice: avoid repeating brand with last 2 items and category with last 1 item
+      for (let i = 0; i < lookaheadLimit; i++) {
+        const candidate = pool[i];
+        const matchBrand1 = last1 && candidate.brandName && last1.brandName && candidate.brandName.toLowerCase() === last1.brandName.toLowerCase();
+        const matchCat1 = last1 && candidate.category && last1.category && candidate.category === last1.category;
+        const matchBrand2 = last2 && candidate.brandName && last2.brandName && candidate.brandName.toLowerCase() === last2.brandName.toLowerCase();
+
+        if (!matchBrand1 && !matchCat1 && !matchBrand2) {
+          pickedIndex = i;
+          break;
+        }
+      }
+
+      // 2. Second choice: relax category requirement, but still avoid immediate duplicate brand
+      if (pickedIndex === -1) {
+        for (let i = 0; i < lookaheadLimit; i++) {
+          const candidate = pool[i];
+          const matchBrand1 = last1 && candidate.brandName && last1.brandName && candidate.brandName.toLowerCase() === last1.brandName.toLowerCase();
+          if (!matchBrand1) {
+            pickedIndex = i;
+            break;
+          }
+        }
+      }
+
+      // 3. Fallback: take next available
+      if (pickedIndex === -1) {
+        pickedIndex = 0;
+      }
+
+      result.push(pool[pickedIndex]);
+      pool.splice(pickedIndex, 1);
+    }
+
+    return result;
+  };
+
   // Filter & Sort
   const filteredDeals = useMemo(() => {
-    return deals
+    const list = deals
       .filter((deal) => {
         // Category filter
         if (activeCategory !== 'ALL' && deal.category !== activeCategory) {
@@ -356,12 +405,25 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
         return true;
       })
       .sort((a, b) => {
+        if (sortBy === 'latest') {
+          const timeA = new Date(a.discoveredAt || a.lastCheckedAt || 0).getTime();
+          const timeB = new Date(b.discoveredAt || b.lastCheckedAt || 0).getTime();
+          if (timeB !== timeA) return timeB - timeA;
+          return b.discountPercentage - a.discountPercentage;
+        }
         if (sortBy === 'discount') return b.discountPercentage - a.discountPercentage;
         if (sortBy === 'savings') return b.savings - a.savings;
         if (sortBy === 'price-asc') return a.currentPrice - b.currentPrice;
         if (sortBy === 'price-desc') return b.currentPrice - a.currentPrice;
         return 0;
       });
+
+    // When browsing all categories or general deals, interleave for visual diversity
+    if (activeCategory === 'ALL' && !searchQuery.trim() && (sortBy === 'discount' || sortBy === 'latest')) {
+      return interleaveDealsForDiversity(list);
+    }
+
+    return list;
   }, [deals, activeCategory, onlyVerifiedBrands, onlyBankOffers, selectedDealType, minRating, activeBudget, searchQuery, minDiscount, sortBy]);
 
   // Real Hourly Rotating Doorbuster Deal
@@ -983,6 +1045,7 @@ export default function DealsClientView({ initialDeals }: DealsClientViewProps) 
                   className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-800 dark:text-stone-200 focus:outline-none focus:border-stone-950 dark:focus:border-white"
                 >
                   <option value="discount">Highest Drop %</option>
+                  <option value="latest">Latest Discovered</option>
                   <option value="savings">Max ₹ Savings</option>
                   <option value="price-asc">Price: Low to High</option>
                   <option value="price-desc">Price: High to Low</option>
